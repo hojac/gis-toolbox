@@ -4,6 +4,13 @@ import fiona
 from shapely.geometry import shape, Point
 import json
 import urllib.request, urllib.error
+from matplotlib import pyplot
+from shapely.geometry import MultiPolygon
+from descartes.patch import PolygonPatch
+
+from mapplot import plot_polygon, plot_coord_scatter
+
+
 
 #
 # Some configuration
@@ -18,6 +25,15 @@ DISTRICT_NAME_PROPERTY = "ST_NAME"
 # The location of the nodes.json
 NODES_JSON_URI = "http://freifunk-aachen.de/map/nodes.json"
 NODES_JSON_PATH = "data/ffac-nodes.json"
+
+# The output path for the plotted map
+# Set to None for interactive output
+MAP_OUTPUT_PATH = "data/ffac-nodes.png"
+
+# Map boundaries and other parameters
+MAP_BOUNDS_LONG = [50.65, 50.90]
+MAP_BOUNDS_LAT  = [5.95, 6.25]
+MAP_TITLE = "Freifunk Aachen"
 
 
 # Read the city district boundaries from shape file
@@ -64,3 +80,21 @@ for _,node in coords.items():
 print(json.dumps(district_stats, sort_keys=True, indent=4, separators=(",", ":"), ensure_ascii=False))
 print("Sum of nodes with coordinates within city limits: ", sum([x for _,x in district_stats.items()]))
 
+
+fig = pyplot.figure(1, dpi=100)
+ax = fig.add_subplot(111)
+ax.set_ylim(MAP_BOUNDS_LONG)
+ax.set_xlim(MAP_BOUNDS_LAT)
+ax.set_title(MAP_TITLE)
+
+
+for _,polygon in district_shapes.items():
+	plot_polygon(ax, polygon, color="#000000", alpha=1, linewidth=1)
+
+plot_coord_scatter(ax, [node for _,node in coords.items()], color="#ff0000", alpha=0.5)
+
+if MAP_OUTPUT_PATH is not None:
+	pyplot.savefig(MAP_OUTPUT_PATH)
+else:
+	pyplot.show()
+    
