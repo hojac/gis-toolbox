@@ -47,9 +47,9 @@ with fiona.open(DISTRICT_SHAPEFILE, "r") as districts:
 
 # Download nodes.json
 try:
-	request = urllib.request.urlopen(NODES_JSON_URI)
-	with open(NODES_JSON_PATH, "wb") as f:
-		f.write(request.read())
+	with urllib.request.urlopen(NODES_JSON_URI) as request:
+		with open(NODES_JSON_PATH, "wb") as f:
+			f.write(request.read())
 except urllib.error.URLError as e:
 	print("nodes.json download failed: ", e.reason)
 	print("Using cached data (if available)...")
