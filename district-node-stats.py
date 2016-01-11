@@ -72,7 +72,7 @@ with open(NODES_JSON_PATH, "r") as f:
 
 
 # Tally nodes within the individual district shapes
-for _,node in coords.items():
+for node in coords.values():
 	for district, shape in district_shapes.items():
 		if shape.contains(node):
 			district_stats[district] += 1
@@ -83,7 +83,7 @@ data_dump = {}
 data_dump["counts"] = {}
 data_dump["counts"]["with_geo"] = withgeo
 data_dump["counts"]["without_geo"] = nogeo
-data_dump["counts"]["within_boundary"] = sum([x for _,x in district_stats.items()])
+data_dump["counts"]["within_boundary"] = sum(district_stats.values())
 data_dump["districts"] = district_stats
 
 
@@ -109,10 +109,10 @@ ax.set_title(MAP_TITLE)
 
 
 # Plot data
-for _,polygon in district_shapes.items():
+for polygon in district_shapes.values():
 	plot_polygon(ax, polygon, color="#000000", alpha=1, linewidth=1)
 
-plot_coord_scatter(ax, [node for _,node in coords.items()], color="#ff0000", alpha=0.5)
+plot_coord_scatter(ax, coords.values(), color="#ff0000", alpha=0.5)
 
 
 # Output plot to either file or interactive/zoomable window
