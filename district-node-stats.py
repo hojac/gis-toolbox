@@ -33,8 +33,8 @@ STATISTICS_OUTPUT_PATH = "data/ffac-district-statistics.json"
 MAP_OUTPUT_PATH = "data/ffac-nodes.png"
 
 # Map boundaries and other parameters
-MAP_BOUNDS_LONG = [50.65, 50.90]
-MAP_BOUNDS_LAT  = [5.95, 6.25]
+MAP_BOUNDS_LAT = [50.65, 50.90]
+MAP_BOUNDS_LON  = [5.95, 6.25]
 MAP_TITLE = "Freifunk Aachen"
 
 
@@ -103,8 +103,8 @@ else:
 # Prepare visualization plot
 fig = pyplot.figure(1, dpi=100)
 ax = fig.add_subplot(111)
-ax.set_ylim(MAP_BOUNDS_LONG)
-ax.set_xlim(MAP_BOUNDS_LAT)
+ax.set_ylim(MAP_BOUNDS_LAT)
+ax.set_xlim(MAP_BOUNDS_LON)
 ax.set_title(MAP_TITLE)
 
 
