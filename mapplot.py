@@ -1,4 +1,6 @@
 from matplotlib import pyplot as plt
+from numpy import arange
+import operator
 
 def plot_polygon(ax, polygon, color, alpha=1, linewidth=1):
 	"""Plots a shapely.Polygon object"""
@@ -10,3 +12,11 @@ def plot_coord_scatter(ax, coords, color, alpha=0.5):
 	x,y = zip(*[coord.xy for coord in coords])
 	ax.scatter(x,y, color=color, alpha=alpha)
 
+def plot_hbar_chart(fig, ax, stats):
+	"""Plots a horizontal bar graph to visualize the json"""
+	y,x = zip(*sorted(stats.items(), key = operator.itemgetter(1)))
+
+	pos = arange(len(stats))
+	ax.barh(pos, x)
+	ax.set_yticks(pos + 0.5)
+	ax.set_yticklabels(list(y))
